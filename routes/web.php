@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -26,4 +27,16 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::prefix('admin')->middleware(['auth','isAdmin'])->group(function(){
  Route::get('dashboard',[DashboardController::class,'index']);
+ //category routes
+//  Route::resource('category',CategoryController::class);
+Route::controller(CategoryController::class)->group(function(){
+ Route::get('category','index');
+ Route::get('category/create','create');
+ Route::post('category/store','store');
+ Route::get('category/{category}/edit','edit');
+ Route::put('category/update/{category_id}','update');
 });
+
+});
+
+

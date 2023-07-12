@@ -39,7 +39,7 @@
         </div>
     </div>
 
-    @vite(['resources/admin/images/favicon.png',
+    @vite([
             'resources/admin/vendors/base/vendor.bundle.base.js',
             'resources/admin/vendors/datatables.net/jquery.dataTables.js',
             'resources/admin/vendors/datatables.net-bs4/dataTables.bootstrap4.js',
@@ -51,5 +51,6 @@
             'resources/admin/js/jquery.dataTables.js',
             'resources/admin/js/dataTables.bootstrap4.js'])
  @livewireScripts
+ @stack('script')
 </body>
 </html>
