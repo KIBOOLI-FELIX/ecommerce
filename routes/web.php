@@ -37,6 +37,8 @@ Route::controller(CategoryController::class)->group(function(){
  Route::put('category/update/{category_id}','update');
 });
 
+Route::get('/brand',App\Http\Livewire\Admin\Brand\index::class);
+
 });
 
 
