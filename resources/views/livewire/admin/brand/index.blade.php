@@ -2,9 +2,11 @@
     @include('livewire.admin.brand.modal-form')
     <div class="row">
         <div class="col-md-12">
-            @if(session('message'))
-                <div class="alert alert-success">{{ session('message') }}</div>
-            @endif
+            <div class="message">
+                @if(session('message'))
+                    <div class="alert alert-success">{{ session('message') }}</div>
+                @endif
+            </div>
             <div class="card">
                 <div class="card-header">
                     <h4>
@@ -27,20 +29,23 @@
                         <tbody>
                             @foreach( $brands as $brand )
                                 <tr>
-                                    <td>{{$brand->id}}</td>
-                                    <td>{{$brand->name}}</td>
-                                    <td>{{$brand->slug}}</td>
-                                    <td>{{$brand->status==1?'Visible':'Hidden'}}</td>
+                                    <td>{{ $brand->id }}</td>
+                                    <td>{{ $brand->name }}</td>
+                                    <td>{{ $brand->slug }}</td>
+                                    <td>{{ $brand->status==1?'Visible':'Hidden' }}
+                                    </td>
                                     <td>
-                                    <a href="{{url('admin/category/'.$brand->id.'/edit')}}" class="btn btn-success">Edit</a>
-                                    <a href="#" wire:click="destroyBrand({{$brand->id}})" data-bs-toggle="modal" data-bs-target="#deleteModal" class='btn btn-danger'>Delete</a>
-                                </td>
+                                        <a href="#" wire:click="updateBrand({{ $brand->id }})" class="btn btn-success"
+                                            data-bs-toggle="modal" data-bs-target="#updateBrandModal">Edit</a>
+                                        <a href="#" wire:click="destroyBrand({{ $brand->id }})" data-bs-toggle="modal"
+                                            data-bs-target="#deleteBrandModal" class='btn btn-danger'>Delete</a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                     <div>
-                        {{$brands->links()}}
+                        {{ $brands->links() }}
                     </div>
                 </div>
             </div>
@@ -51,7 +56,11 @@
     <script>
         window.addEventListener('close-modal', event => {
             $('#AddBrandModal').modal('hide');
+            $('#updateBrandModal').modal('hide');
+            $('#deleteBrandModal').modal('hide');
+            setTimeout(() => {
+                $('.message').hide()
+            }, 5000);
         })
-
     </script>
 @endpush

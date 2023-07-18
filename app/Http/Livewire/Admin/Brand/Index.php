@@ -13,6 +13,7 @@ class Index extends Component
     public $name;
     public $slug;
     public $status;
+    public $brand_id;
 
     public function rules()
     {
@@ -28,6 +29,7 @@ class Index extends Component
         $this->name=NULL;
         $this->slug=NULL;
         $this->status=NULL;
+        $this->brand_id=NULL;
     }
     public function saveBrand()
     {
@@ -39,6 +41,48 @@ class Index extends Component
         ]);
 
         session()->flash('message','brand added successfully');
+        $this->dispatchBrowserEvent('close-modal');
+        $this->resetFields();
+    }
+
+    public function closeModal()
+    {
+        $this->resetFields();
+    }
+    public function openModal()
+    {
+        $this->resetFields();
+    }
+
+    public function updateBrand(int $brand_id)
+    {
+        $this->brand_id=$brand_id;
+        $brand=Brand::findOrFail($brand_id);
+        $this->name=$brand->name;
+        $this->status=$brand->status;
+        $this->slug=$brand->slug;
+    }
+    public function updateStoreBrand(){
+        $validatedData=$this->validate();
+        Brand::findOrFail($this->brand_id)->update([
+            'name'=>$this->name,
+            'slug'=>Str::slug($this->slug),
+            'status'=>$this->status==true ? '1':'0',
+        ]);
+
+        session()->flash('message','brand updated successfully');
+        $this->dispatchBrowserEvent('close-modal');
+        $this->resetFields();
+    }
+
+    public function destroyBrand($brand_id)
+    {
+        $this->brand_id=$brand_id;
+    }
+    public function deleteBrand()
+    {
+        Brand::findOrFail($this->brand_id)->delete();
+        session()->flash('message','brand deleted successfully');
         $this->dispatchBrowserEvent('close-modal');
         $this->resetFields();
     }
