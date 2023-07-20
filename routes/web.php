@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,6 +36,12 @@ Route::controller(CategoryController::class)->group(function(){
  Route::post('category/store','store');
  Route::get('category/{category}/edit','edit');
  Route::put('category/update/{category_id}','update');
+});
+
+Route::controller(ProductController::class)->group(function(){
+Route::get('products','index');
+Route::get('products/create','create');
+Route::post('products','store');
 });
 
 Route::get('/brand',App\Http\Livewire\Admin\Brand\index::class);
