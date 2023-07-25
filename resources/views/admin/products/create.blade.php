@@ -22,7 +22,6 @@
             @endif
             <form action='{{ url('admin/products') }}' method='POST' enctype="multipart/form-data">
                 @csrf
-                @method('PUT')
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
