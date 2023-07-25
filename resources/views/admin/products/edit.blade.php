@@ -1,5 +1,3 @@
-
-
 @extends('layouts.admin')
 
 @section('content')
@@ -7,8 +5,8 @@
     <div class="card">
         <div class="card-header">
             <h3>
-                Add Product
-                <a href='{{ url('admin/products') }}'
+                Edit Product
+                <a href='{{ url('admin/products/'.$product->id) }}'
                     class='btn btn-danger btn-sm text-white float-end'>Back</a>
             </h3>
         </div>
@@ -22,7 +20,6 @@
             @endif
             <form action='{{ url('admin/products') }}' method='POST' enctype="multipart/form-data">
                 @csrf
-                @method('PUT')
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
@@ -56,47 +53,51 @@
                             <label>Category</label>
                             <select name='category_id' class='form-select'>
                                 @foreach( $categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}" {{$category->id==$product->category_id ?'selected':''}}>
+                                        {{ $category->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
                             <label>Product Name</label>
-                            <input type='text' name='name' value="{{old('name')}}" class='form-control' />
+                            <input type='text' name='name' value="{{$product->name}}" class='form-control' />
                         </div>
                         <div class="mb-3">
                             <label>Product Slug</label>
-                            <input type='text' name='slug' value="{{old('slug')}}" class='form-control' />
+                            <input type='text' name='slug' value="{{$product->slug}}" class='form-control' />
                         </div>
                         <div class="mb-3">
                             <label>Select Brand</label>
                             <select name='brand' class='form-select'>
                                 @foreach( $brands as $brand)
-                                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                    <option value="{{ $brand->id }}"  {{$brand->name==$product->brand ?'selected':''}}>
+                                        {{ $brand->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
                             <label>Small Description (500 words)</label>
-                            <textarea name='small_description' class='form-control' rows='4'>{{old('small_description')}}</textarea>
+                            <textarea name='small_description' class='form-control' rows='4'>{{$product->small_description}}</textarea>
                         </div>
                         <div class="mb-3">
                             <label>Description (500 words)</label>
-                            <textarea name='description' class='form-control' rows='4'>{{old('description')}}</textarea>
+                            <textarea name='description' class='form-control' rows='4'>{{$product->description}}</textarea>
                         </div>
                     </div>
                     <div class="tab-pane fade border p-3" id="profile" role="tabpanel" aria-labelledby="seotag-tab">
                         <div class="mb-3">
                             <label>Meta Title</label>
-                            <input type='text' name='meta_title' value="{{old('meta_title')}}" class='form-control' />
+                            <input type='text' name='meta_title' value="{{$product->meta_title}}" class='form-control' />
                         </div>
                         <div class="mb-3">
                             <label>Meta Description </label>
-                            <textarea name='meta_description' class='form-control' rows='4'> {{old('meta_description')}}</textarea>
+                            <textarea name='meta_description' class='form-control' rows='4'> {{$product->meta_description}}</textarea>
                         </div>
                         <div class="mb-3">
                             <label>Meta Keyword </label>
-                            <textarea name='meta_keyword' class='form-control' rows='4'>{{old('meta_keyword')}}</textarea>
+                            <textarea name='meta_keyword' class='form-control' rows='4'>{{$product->meta_keyword}}</textarea>
                         </div>
 
                     </div>
@@ -105,32 +106,32 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label>Original Price</label>
-                                    <input type='number' name='original_price' value="{{old('original_price')}}" class='form-control' />
+                                    <input type='number' name='original_price' value="{{$product->original_price}}" class='form-control' />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label>Selling Price</label>
-                                    <input type='number' name='selling_price'  value="{{old('selling_price')}}" class='form-control' />
+                                    <input type='number' name='selling_price'  value="{{$product->selling_price}}" class='form-control' />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label>Quantity</label>
-                                    <input type='number' name='quantity' value="{{old('quantity')}}" class='form-control' />
+                                    <input type='number' name='quantity' value="{{$product->quantity}}" class='form-control' />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label>Trending</label>
-                                    <input type='checkbox' name='trending' style='height:50px;width:50px'
+                                    <input type='checkbox' name='trending' {{$product->trending=='1'? 'checked' :''}} style='height:50px;width:50px'
                                         class='form-check' />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label>Status</label>
-                                    <input type='checkbox' name='status' style='height:50px;width:50px' class='form-check' />
+                                    <input type='checkbox' name='status'  {{$product->status=='1'? 'checked' :''}} style='height:50px;width:50px' class='form-check' />
                                 </div>
                             </div>
                         </div>
@@ -139,6 +140,17 @@
                         <div class="mb-3">
                             <label>Upload Product Images</label>
                             <input type='file' name='image[]' multiple class="form-control" />
+                        </div>
+                        <div>
+                            @if($product->productImages)
+                            @foreach ($product->productImages as $image )
+                              <img src="{{asset($image->image)}}" class='img-fluid me-4 border' style= 'width:80px;height:80px' alt='image'/>
+                              {{-- {{$image->image}} --}}
+                            @endforeach
+
+                            @else
+                            <h5>No Product Image</h5>
+                            @endif
                         </div>
                     </div>
                     <div>

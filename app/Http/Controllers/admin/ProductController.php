@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductFormRequest;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -13,7 +14,8 @@ class ProductController extends Controller
 {
     //
     public function index(){
-        return view('admin.products.index');
+        $products=Product::all();
+        return view('admin.products.index',compact('products'));
     }
     public function create(){
         $categories=Category::all();
@@ -48,5 +50,11 @@ class ProductController extends Controller
 
         return redirect('admin/products')->with('message','Product added successfully');
 
+    }
+    public function edit(Product $product)
+    {
+        $categories=Category::all();
+        $brands=Brand::all();
+        return view('admin.products.edit',compact('product','categories','brands'));
     }
 }

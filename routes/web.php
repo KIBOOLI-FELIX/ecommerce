@@ -42,6 +42,7 @@ Route::controller(ProductController::class)->group(function(){
 Route::get('products','index');
 Route::get('products/create','create');
 Route::post('products','store');
+Route::get('products/{product}/edit','edit');
 });
 
 Route::get('/brand',App\Http\Livewire\Admin\Brand\index::class);
