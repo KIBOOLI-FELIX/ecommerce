@@ -69,7 +69,7 @@ class ProductController extends Controller
         {
             $validatedData['slug']=Str::slug($validatedData['slug']);
             $request->status==true? $validatedData['status']='1' : $validatedData['status']='0';
-            $request->status==true? $validatedData['trending']='1' : $validatedData['trending']='0';
+            $request->trending==true? $validatedData['trending']='1' : $validatedData['trending']='0';
             $product->update($validatedData);
 
             if($request->hasFile('image')){

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -47,6 +48,19 @@ Route::put('products/{product}','update');
 Route::get('product-image/{product_image_id}/delete','deleteImage');
 Route::get('products/{product}/delete','delete');
 });
+
+
+Route::controller(ColorController::class)->group(function(){
+Route::get('colors','index');
+Route::get('colors/create','create');
+Route::post('colors/store','store');
+Route::get('colors/{color}/edit','edit');
+Route::put('colors/{color}','update');
+Route::delete('colors/{color}/delete','destroy');
+});
+
+
+
 
 Route::get('/brand',App\Http\Livewire\Admin\Brand\index::class);
 

@@ -46,6 +46,19 @@
             </div>
           </li>
           <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#colors" aria-expanded="false" aria-controls="ui-basic">
+              <i class="mdi mdi-view-headline menu-icon"></i>
+              <span class="menu-title">Colors</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="colors">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{{url('admin/colors')}}">Add Color</a></li>
+                {{-- <li class="nav-item"> <a class="nav-link" href="{{url('admin/colors')}}">View Colors</a></li> --}}
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="pages/charts/chartjs.html">
               <i class="mdi mdi-chart-pie menu-icon"></i>
               <span class="menu-title">Charts</span>
