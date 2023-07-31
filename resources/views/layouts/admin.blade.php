@@ -3,17 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {{-- <!-- plugins:css -->
-    <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- plugin css for this page -->
-    <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <link rel="stylesheet" href="css/style.css">
-    <!-- endinject -->
-    <link rel="shortcut icon" href="images/favicon.png" /> --}}
+    <meta name="csrf-token" content="{{csrf_token()}}">
 
     <!-- Styles -->
     @vite(['resources/admin/vendors/mdi/css/materialdesignicons.min.css',
@@ -49,6 +39,8 @@
             'resources/admin/js/data-table.js',
             'resources/admin/js/jquery.dataTables.js',
             'resources/admin/js/dataTables.bootstrap4.js'])
+    <script src='{{asset('js/jquery-3.7.0.min.js')}}'></script>
+    @yield('scripts')
  @livewireScripts
  @stack('script')
 </body>

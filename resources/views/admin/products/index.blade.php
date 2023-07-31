@@ -65,3 +65,6 @@
     </div>
 </div>
 @endsection
+@section('scripts')
+@include('message.timeout')
+@endsection

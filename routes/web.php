@@ -47,6 +47,8 @@ Route::get('products/{product}/edit','edit');
 Route::put('products/{product}','update');
 Route::get('product-image/{product_image_id}/delete','deleteImage');
 Route::get('products/{product}/delete','delete');
+Route::put('product-color/{prodColorId}','updateColorQty');
+Route::delete('product-color/{prodColorId}','deleteProdColor');
 });
 
 

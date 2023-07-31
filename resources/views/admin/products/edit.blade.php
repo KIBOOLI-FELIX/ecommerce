@@ -215,16 +215,20 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($product->productColors as $prodColor)
-                                    <tr>
-                                        <td>{{$prodColor->color_id}}</td>
+                                    <tr class='product-color-tr'>
+                                        @if ($prodColor->color)
+                                         <td>{{$prodColor->color->name}}</td>
+                                         @else
+                                         No Color Found
+                                        @endif
                                         <td>
                                             <div class="input-group mb-3" style='width:150px'>
-                                                <input type='text' value='{{$prodColor->quantity}}' class='form-control form-control-sm'/>
-                                                <button type='button' value='{{$prodColor->id}}' class='btn btn-primary btn-sm text-white'>Update</button>
+                                                <input type='text' value='{{$prodColor->quantity}}' class='prodColorQty form-control form-control-sm'/>
+                                                <button type='button' value='{{$prodColor->id}}' class=' updateColorBtn btn btn-primary btn-sm text-white'>Update</button>
                                             </div>
                                         </td>
                                         <td>
-                                            <button type='button' value='{{$prodColor->id}}' class='btn btn-danger btn-sm text-white'>Delete</button>
+                                            <button type='button' value='{{$prodColor->id}}' class='deleteColorBtn btn btn-danger btn-sm text-white'>Delete</button>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -240,9 +244,54 @@
     </div>
 </div>
 </div>
-<script>
-    setTimeout(() => {
-        document.querySelector('.message').style.display='none';
-    }, 5000);
-</script>
 @endsection
+@section('scripts')
+<script>
+    $(document).ready(function () {
+
+        $.ajaxSetup({
+            headers:{
+                'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $(document).on('click','.updateColorBtn', function () {
+            var product_id="{{$product->id}}"
+            var prodColorId=$(this).val()
+            var quantity=$(this).closest('.product-color-tr').find('.prodColorQty').val()
+
+            if(quantity <=0)
+            {
+                alert('Qty Required')
+                return false
+            }
+
+            var data={
+                'product_id':product_id,
+                'qty':quantity
+            }
+            $.ajax({
+                type: "PUT",
+                url: "/admin/product-color/"+prodColorId,
+                data: data,
+                success: function (response) {
+                    alert(response.message)
+                }
+            });
+        });
+
+        $(document).on('click','.deleteColorBtn',function () {
+             var prodColorId=$(this).val()
+             var $this=$(this)
+             $.ajax({
+                type: "DELETE",
+                url: "/admin/product-color/"+prodColorId,
+                success: function (response) {
+                    $this.closest('.product-color-tr').remove();
+                    alert(response.message)
+                }
+             });
+        });
+    });
+</script>
+@endsection;
