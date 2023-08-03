@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SliderController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,6 +32,11 @@ Route::prefix('admin')->middleware(['auth','isAdmin'])->group(function(){
  Route::get('dashboard',[DashboardController::class,'index']);
  //category routes
 //  Route::resource('category',CategoryController::class);
+Route::controller(SliderController::class)->group(function(){
+    Route::get('sliders','index');
+    Route::get('sliders/create','create');
+    Route::post('sliders/create','store');
+});
 Route::controller(CategoryController::class)->group(function(){
  Route::get('category','index');
  Route::get('category/create','create');
