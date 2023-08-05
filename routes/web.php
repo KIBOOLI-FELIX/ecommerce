@@ -36,6 +36,9 @@ Route::controller(SliderController::class)->group(function(){
     Route::get('sliders','index');
     Route::get('sliders/create','create');
     Route::post('sliders/create','store');
+    Route::get('/sliders/{slider}/edit','edit');
+    Route::put('/sliders/{slider}','update');
+    Route::delete('/sliders/{slider}/delete','destroy');
 });
 Route::controller(CategoryController::class)->group(function(){
  Route::get('category','index');

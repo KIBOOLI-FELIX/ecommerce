@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SliderFormRequest;
 use App\Models\Slider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class SliderController extends Controller
 {
@@ -60,24 +61,57 @@ class SliderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Slider $slider)
     {
         //
+        return view('admin.slider.edit',compact('slider'));
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SliderFormRequest $request, Slider $slider)
     {
         //
+         //
+        $validatedData=$request->validated();
+        if($request->hasFile('image')){
+            $destination=$slider->image;
+            if(File::exists($destination)){
+                File::delete($destination);
+            }
+            $file=$request->file('image');
+            $ext=$file->getClientOriginalExtension();
+            $fileName=time().'.'.$ext;
+            $file->move('uploads/slider/',$fileName);
+            $validatedData['image']='uploads/slider/'.$fileName;
+        }
+        $request->status==true? $validatedData['status']='1' : $validatedData['status']='0';
+
+        Slider::where('id',$slider->id)->update($validatedData);
+
+        return redirect('admin/sliders')->with('message','slider updated');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Slider $slider)
     {
         //
+        if($slider->count()>0){
+
+
+        $destination=$slider->image;
+            if(File::exists($destination)){
+                File::delete($destination);
+            }
+        $slider->delete();
+
+        return redirect('admin/sliders')->with('message','slider deleted');
+        }
+
+        return redirect('admin/sliders')->with('message','Unexpected error');
     }
 }

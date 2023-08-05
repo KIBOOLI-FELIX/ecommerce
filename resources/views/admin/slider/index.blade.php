@@ -34,15 +34,16 @@
                             <td>{{ $slider->title }}</td>
                             <td>{{ $slider->description }}</td>
                             <td>
-                                <img src='{{asset($slider->image)}}' width='50px'/>
+                                <img src='{{ asset($slider->image) }}' width='50px' />
                             </td>
                             <td>{{ $slider->status? 'Visible' : 'Hidden' }}
                             </td>
                             <td class='d-flex'>
-                                <a href="{{ url('admin/sliders/'.$slider->id.'/edit') }}"
-                                    class="btn btn-primary btn-sm btn-success">
-                                    Edit
-                                </a>
+
+                                    <a href="{{ url('admin/sliders/'.$slider->id.'/edit') }}"
+                                        class="btn btn-primary btn-sm btn-success">
+                                        Edit
+                                    </a>
                                 <form method='POST'
                                     action='{{ url('admin/sliders/'.$slider->id.'/delete') }}'>
                                     @csrf
@@ -65,3 +66,11 @@
 @section('scripts')
 @include('message.timeout')
 @endsection
+     {{-- <form method='POST'>
+                                     @csrf
+                                    @method('PUT')
+                                    <button type='submit' href="{{ url('admin/sliders/'.$slider->id.'/edit') }}"
+                                        class="btn btn-primary btn-sm btn-success">
+                                        Edit
+                                    </button>
+                                </form> --}}
