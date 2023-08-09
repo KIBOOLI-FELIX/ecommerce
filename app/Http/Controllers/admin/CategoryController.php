@@ -47,12 +47,14 @@ class CategoryController extends Controller
         $this->category->description=$validatedData['description'];
         // $category->image=$validatedData['image'];
 
+          $direc='uploads/category/';
         if($request->hasFile('image')){
             $file=$request->file('image');
             $ext=$file->getClientOriginalExtension();
             $fileName=time().'.'.$ext;
-            $file->move('uploads/category',$fileName);
-            $this->category->image=$fileName;
+            $path=$direc.$fileName;
+            $file->move($path,$fileName);
+            $this->category->image=$path;
         }
         $this->category->meta_title=$validatedData['meta_title'];
         $this->category->meta_description=$validatedData['meta_description'];
@@ -92,16 +94,18 @@ class CategoryController extends Controller
         //
         $this->category=Category::findOrFail($id);
         $validatedData=$request->validated();
+        $direc='uploads/category/';
          if($request->hasFile('image')){
-            $path='uploads/category'.$this->category->image;
+            $path='uploads/category/'.$this->category->image;
             if(File::exists($path)){
                 File::delete($path);
             }
             $file=$request->file('image');
             $ext=$file->getClientOriginalExtension();
             $fileName=time().'.'.$ext;
-            $file->move('uploads/category',$fileName);
-            $this->category->image=$fileName;
+            $path=$direc.$fileName;
+            $file->move($path,$fileName);
+            $this->category->image=$path;
         }
 
         if($this->category->update($validatedData)){
