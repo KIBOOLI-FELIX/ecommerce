@@ -66,11 +66,4 @@
 @section('scripts')
 @include('message.timeout')
 @endsection
-     {{-- <form method='POST'>
-                                     @csrf
-                                    @method('PUT')
-                                    <button type='submit' href="{{ url('admin/sliders/'.$slider->id.'/edit') }}"
-                                        class="btn btn-primary btn-sm btn-success">
-                                        Edit
-                                    </button>
-                                </form> --}}
+
