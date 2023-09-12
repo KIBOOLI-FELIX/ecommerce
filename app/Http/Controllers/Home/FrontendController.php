@@ -7,7 +7,7 @@ use App\Models\Category;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class FrontendController extends Controller
 {
     //
     public function index(){

@@ -10,7 +10,11 @@ class Index extends Component
     public $products;
     public $category;
     public $brandInputs=[];
-    protected $queryString = ['brandInputs'];
+    public $priceInput;
+    protected $queryString = [
+        'brandInputs'=>['except' => '', 'as' => 'brand'],
+        'priceInput'=>['except' => '', 'as' => 'price'],
+    ];
     public function mount($category)
     {
         $this->category=$category;
@@ -21,6 +25,14 @@ class Index extends Component
              ->when($this->brandInputs, function($query){
                 $query->whereIn('brand',$this->brandInputs);
              })
+              ->when($this->priceInput, function($query){
+                 $query->when($this->priceInput=='high-to-low', function($query2){
+                    $query2->orderBy('selling_price','DESC');
+                    })
+                    ->when($this->priceInput=='low-to-high', function($query2){
+                    $query2->orderBy('selling_price','ASC');
+                    });
+              })
              ->where('status','1')
              ->get();
         return view('livewire.frontend.product.index',[

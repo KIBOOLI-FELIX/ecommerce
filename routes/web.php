@@ -5,7 +5,7 @@ use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SliderController;
-use App\Http\Controllers\Home\HomeController;
+use App\Http\Controllers\Home\FrontendController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,9 +26,9 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::get('/',[HomeController::class,'index']);
-Route::get('/collections',[HomeController::class,'categories']);
-Route::get('/collections/{category_slug}',[HomeController::class,'products']);
+Route::get('/',[FrontendController::class,'index']);
+Route::get('/collections',[FrontendController::class,'categories']);
+Route::get('/collections/{category_slug}',[FrontendController::class,'products']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -80,5 +80,3 @@ Route::delete('colors/{color}/delete','destroy');
 Route::get('/brand',App\Http\Livewire\Admin\Brand\index::class);
 
 });
-
-
